@@ -13,4 +13,4 @@ rm -f $APP_PATH/tmp/pids/server.pid
 
 # run anything by prepending bundle exec to the passed command
 
-bundle exec ${@}
+${@}
