@@ -1,0 +1,16 @@
+<div class="flex items-baseline">
+  <div class="flex">
+    <%= button_to "X", project_path(project),
+                  method: :delete,
+                  data: { action: "projects#delete" },
+                  class: "btn bg-red-100 mr-4 px-4" %>
+  </div>
+  <div class="flex">
+    <%= project.name %>
+  </div>
+  <div class="flex ml-auto">
+    <%= link_to "Start", edit_project_path(project),
+                class: "btn bg-green-100"
+    %>
+  </div>
+</div>
