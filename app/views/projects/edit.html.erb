@@ -1,0 +1,13 @@
+<% time_status = @project.project_updates&.last&.time_status&.humanize %>
+<% heading = time_status == "Start" ? "Stop" : "Start" %>
+<% if alert.present? %>
+  <p class="py-2 px-3 bg-red-50 mb-5 text-red-500 font-medium rounded-lg inline-block" id="alert">
+    <%= alert %>
+  </p>
+<% end %>
+<div>
+  <h1 class="font-bold text-2xl mb-3"><%= heading %> Project</h1>
+  <div id="<%= dom_id @project %>">
+    <%= render "form", project: @project, project_update: @project_update %>
+  </div>
+</div>

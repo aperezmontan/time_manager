@@ -10,9 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_14_170625) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_14_200840) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  # Custom types defined in this database.
+  # Note that some types may not work with other database engines. Be careful if changing database.
+  create_enum "project_update_reason", ["blocked_by_SME", "other"]
+  create_enum "project_update_time_status", ["start", "pause", "hold", "finish"]
+
+  create_table "project_updates", force: :cascade do |t|
+    t.text "note"
+    t.bigint "project_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.enum "time_status", enum_type: "project_update_time_status"
+    t.enum "reason", enum_type: "project_update_reason"
+    t.index ["project_id"], name: "index_project_updates_on_project_id"
+    t.index ["reason"], name: "index_project_updates_on_reason"
+    t.index ["time_status"], name: "index_project_updates_on_time_status"
+  end
 
   create_table "projects", force: :cascade do |t|
     t.string "name"
@@ -20,4 +37,5 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_14_170625) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "project_updates", "projects"
 end
