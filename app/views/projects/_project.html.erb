@@ -1,3 +1,4 @@
+<% time_status = project.project_updates&.last&.time_status %>
 <div class="flex items-baseline">
   <div class="flex">
     <%= button_to "X", project_path(project),
@@ -5,12 +6,23 @@
                   data: { action: "projects#delete" },
                   class: "btn bg-red-100 mr-4 px-4" %>
   </div>
+  <%= link_to(project) do %>
+    <div class="flex w-96 mr-4 justify-between">
+      <div>
+        <%= project.name %>
+      </div>
+      <% if time_status.present? %>
+        <div>
+          Current Status: <%= current_status_in_past(time_status) %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
   <div class="flex">
-    <%= project.name %>
-  </div>
-  <div class="flex ml-auto">
-    <%= link_to "Start", edit_project_path(project),
-                class: "btn bg-green-100"
-    %>
+    <% if time_status == "start" %>
+      <%= link_to "Stop", edit_project_path(project), class: "btn bg-red-100" %>
+    <% else %>
+      <%= link_to "Start", edit_project_path(project), class: "btn bg-green-100" %>
+    <% end %>
   </div>
 </div>

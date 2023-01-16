@@ -1,6 +1,10 @@
-<%= form_with model: new_project, class: "mb-7" do |form| %>
+<%= form_with model: project, class: "mb-7" do |form| %>
   <div class="mb-5">
     <%= form.text_field :name, placeholder: "Add a new project...", class: "shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-96" %>
-    <%= form.submit "Add", class: "btn py-2 ml-2 bg-blue-600 text-white" %>
   </div>
+  <% if project_update %>
+    <%= render "project_update_form", project: project, project_update: project_update, form: form %>
+  <% end %>
+  <%= link_to "Cancel", projects_path, class: "btn py-2 ml-2 bg-gray-100" %>
+  <%= form.submit "Save", class: "btn py-2 ml-2 bg-blue-600 text-white" %>
 <% end %>

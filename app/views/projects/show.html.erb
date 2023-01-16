@@ -1,0 +1,29 @@
+<h1 class="font-bold text-2xl"><%= @project.name %></h1>
+<% @project.project_updates.each do |project_update| %>
+  <div class="max-w-sm rounded overflow-hidden shadow-lg p-4">
+    <% if project_update.time_status == "start" %>
+      <div class="text-lg text-green-500 font-semibold">
+        <%= project_update.time_status&.humanize %>
+      </div>
+    <% else %>
+      <div class="text-lg text-red-500 font-semibold">
+        <%= project_update.time_status&.humanize %>
+      </div>
+    <% end %>
+    <div>
+      <div>
+        Time: <%= project_update.created_at.strftime("%_m/%-d %l:%M") %>
+      </div>
+      <div>
+        Reason: <%= project_update.reason&.humanize %>
+      </div>
+      <div>
+        Note: <%= project_update.note %>
+      </div>
+    </div>
+  </div>
+<% end %>
+<div class="py-4">
+  <%= link_to "Edit", edit_project_path(@project), class: "btn py-2 ml-2 bg-black text-white" %> |
+  <%= link_to "Back", projects_path, class: "btn py-2 bg-black text-white" %>
+</div>
