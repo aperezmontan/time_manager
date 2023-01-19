@@ -1,0 +1,24 @@
+<% heading = time_status == "Start" ? "Stop" : "Start" %>
+<div class="input-field">
+  <%= form.label :reason %>
+  <div class="custom-select">
+    <%= form.select :reason, options_for_select(ProjectUpdate.reasons.map { |k, v| [k.humanize, v] }, selected: project_update.reason), include_blank: "Select", class: "input" %>
+  </div>
+</div>
+<%= time_status %>
+<% if heading == "Start" %>
+  <%= form.hidden_field :time_status, value: time_status %>
+<% else %>
+  <div class="input-field">
+    <%= form.label :time_status %>
+    <div class="custom-select">
+      <%= form.select :time_status, options_for_select(ProjectUpdate.time_statuses.select{|_k, v| v != "start" }.map { |k, v| [k.humanize, v] }, selected: project_update.time_status), include_blank: "Select", class: "input" %>
+    </div>
+  </div>
+<% end %>
+<div class="input-field">
+  <%= form.label :note %>
+  <div class="custom-select">
+    <%= form.text_area :note, placeholder: "Write something here...", class: "shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2" %>
+  </div>
+</div>

@@ -1,0 +1,20 @@
+<% form ||= nil %>
+<% if form.present? %>
+  <%= form.fields_for :project_update do |project_update_form| %>
+    <%= render "project_updates/form_partial", form: project_update_form, project_update: @project_update, time_status: time_status %>
+  <% end %>
+<% else %>
+  <% if alert.present? %>
+    <p class="py-2 px-3 bg-red-50 mb-5 text-red-500 font-medium rounded-lg inline-block" id="alert">
+      <%= alert %>
+    </p>
+  <% end %>
+  <div>
+    <h1 class="font-bold text-2xl mb-3"><%= project_update.time_status.humanize %></h1>
+    <%= form_with(model: project_update) do |form| %>
+      <%= render "project_updates/form_partial", form: form, project_update: project_update, time_status: project_update.time_status %>
+      <%= link_to 'Cancel', project_update.project, class: "btn py-2 ml-2 bg-gray-100" %>
+      <%= form.submit "Save", class: "btn py-2 ml-2 bg-blue-600 text-white" %>
+    <% end %>
+  </div>
+<% end %>
