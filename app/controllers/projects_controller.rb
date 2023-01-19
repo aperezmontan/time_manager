@@ -1,24 +1,25 @@
+# frozen_string_literal: true
+
+# The Controller for manipulating Projects
 class ProjectsController < ApplicationController
+  before_action :set_project, only: %i[show edit update destroy]
+
   def index
     @projects = Project.all
     @new_project = Project.new
   end
 
   # GET /projects/1 or /projects/1.json
-  def show
-    @project = Project.includes(:project_updates).find(params[:id])
-  end
+  def show; end
 
   # GET /projects/1/edit
   def edit
-    @project = Project.includes(:project_updates).find(params[:id])
     @project_update = ProjectUpdate.new
     @status_change_type = params[:status_change_type]
   end
 
   # POST /projects or /projects.json
   def create
-    @projects = Project.all
     @project = Project.new(project_params)
 
     respond_to do |format|
@@ -34,14 +35,8 @@ class ProjectsController < ApplicationController
 
   # PATCH/PUT /projects/1 or /projects/1.json
   def update
-    puts project_update_params
-
-    @project = Project.includes(:project_updates).find(params[:id])
-    @project.name = project_params.fetch(:name)
-    @project.project_updates.build(project_update_params)
-
     respond_to do |format|
-      if @project.save
+      if @project.update(project_params)
         format.html { redirect_to projects_url, notice: 'Project was successfully updated.' }
         format.json { render :index, status: :ok, location: @project }
       else
@@ -53,7 +48,6 @@ class ProjectsController < ApplicationController
 
   # DELETE /projects/1 or /projects/1.json
   def destroy
-    @project = Project.includes(:project_updates).find(params[:id])
     @project.destroy
 
     respond_to do |format|
@@ -65,10 +59,14 @@ class ProjectsController < ApplicationController
   private
 
   def project_params
-    params.require(:project).permit(:name, project_update: [:time_status, :reason, :note])
+    params.require(:project).permit(:name, project_update: %i[time_status reason note])
   end
 
   def project_update_params
     project_params.fetch(:project_update)
+  end
+
+  def set_project
+    @project = Project.includes(:project_updates).find(params[:id])
   end
 end

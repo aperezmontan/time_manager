@@ -59,3 +59,8 @@ services:
     volumes:
       - .:/var/app
       - gem_cache:/usr/local/bundle/gems
+
+    docker-rubocop:
+      volumes:
+          - '$PWD:/app'
+      image: 'kalashnikovisme/docker-rubocop:ruby-3.1.3'

@@ -1,0 +1,4 @@
+{
+  "ruby.rubocop.executePath": "bin/",
+  "ruby.rubocop.configFilePath": "/Users/DJAris/Code/side_pieces/time_manager/.rubocop.yml"
+}
