@@ -1,6 +1,6 @@
 <%= form_with model: project, class: "mb-7" do |form| %>
   <div class="mb-5">
-    <%= form.text_field :name, placeholder: "Add a new project...", class: "shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-96" %>
+    <%= form.text_field :name, placeholder: "Add a new project...", class: "shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2" %>
   </div>
   <% if project_update %>
     <%= render "project_update_form", project: project, project_update: project_update, form: form %>

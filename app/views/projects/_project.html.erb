@@ -1,28 +1,38 @@
 <% time_status = project.project_updates&.last&.time_status %>
-<div class="flex items-baseline">
-  <div class="flex">
-    <%= button_to "X", project_path(project),
-                  method: :delete,
-                  data: { action: "projects#delete" },
-                  class: "btn bg-red-100 mr-4 px-4" %>
-  </div>
-  <%= link_to(project) do %>
-    <div class="flex w-96 mr-4 justify-between">
-      <div>
+<div class="col-span-2 border-b-2">
+  <%= link_to(project_path(project), {class: "flex justify-between"}) do %>
+    <div class="flex flex-col">
+      <div class="font-semibold text-sky-900">
         <%= project.name %>
       </div>
-      <% if time_status.present? %>
-        <div>
-          Current Status: <%= current_status_in_past(time_status) %>
-        </div>
-      <% end %>
+      <div class="flex items-center text-xs">
+        Current Status: 
+        <% if time_status.present? %>
+          <strong>&nbsp<%= current_status_in_past(time_status) %></strong>
+        <% else %>
+          <strong>&nbspNot Started</strong>
+        <% end %>
+      </div>
     </div>
+    <% if project.project_updates.last&.note.present? %>
+      <div class="sm:flex hidden items-center text-sm truncate max-w-[200px]">
+        Last note: 
+        <p class="truncate">&nbsp<%= project.project_updates.last&.note %></p>
+      </div>
+    <% end %>
   <% end %>
-  <div class="flex">
+</div>
+<div class="col-span-1 flex justify-end border-b-2 BUTTONS-CONTAINER">
+  <div class="START-STOP-BUTTON">
     <% if time_status == "start" %>
       <%= link_to "Stop", edit_project_path(project), class: "btn bg-red-100" %>
     <% else %>
       <%= link_to "Start", edit_project_path(project), class: "btn bg-green-100" %>
     <% end %>
+  </div>
+  <div class="DELETE-BUTTON">
+    <%= link_to "X", project_path(project),
+                    data: { turbo_method: :delete, turbo_confirm: 'Are you sure you want to delete this project ?' },
+                    class: "btn text-white bg-red-700 ml-2" %>
   </div>
 </div>

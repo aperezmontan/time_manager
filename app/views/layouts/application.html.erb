@@ -10,8 +10,21 @@
     <%= javascript_importmap_tags %>
   </head>
   <body>
-    <main class="container mx-auto mt-28 px-5 flex-col">
+    <header class="w-full flex px-6 py-4 justify-between items-center text-white bg-slate-800 NAVBAR">
+      <div class="text-xl font-bold NAVBAR-TITLE">TimeManager</div>
+      <ul class="list-none sm:flex hidden justify-end items-center flex-1">
+        <% ['home', 'features', 'clients', 'about'].each do |link| %>
+          <li class="font-normal text-[16px] mr-10 last-of-type:mr-0">
+            <%= link_to link.humanize, '/' %>
+          </li>
+        <% end %>
+      </ul>
+      <div class="sm:hidden flex flex-1 justify-end items-center">
+      </div>
+    </header>
+    <main class="flex-1 h-screen p-5 flex-col mx-auto my-0 text-slate-800 MAIN-CONTENT">
       <%= yield %>
     </main>
+    <footer class="w-full my-2 text-center text-slate-800 FOOTER">ikn, The Bronx, 2023</footer>
   </body>
 </html>
