@@ -1,0 +1,14 @@
+require:
+  - rubocop-performance
+  - rubocop-rails
+
+AllCops:
+  Exclude:
+    - 'db/**/*'
+    - 'config/**/*'
+    - 'script/**/*'
+    - 'bin/**/*'
+    - !ruby/regexp /old_and_unused\.rb$/
+  <% `git status --ignored --porcelain`.lines.grep(/^!! /).each do |path| %>
+    - <%= path.sub(/^!! /, '').sub(/\/$/, '/**/*') %>
+  <% end %>

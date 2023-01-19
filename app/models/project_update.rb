@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# The records that save users stops and starts with detailed information
 class ProjectUpdate < ApplicationRecord
   belongs_to :project
 
