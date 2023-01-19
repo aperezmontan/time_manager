@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 20_230_114_200_840) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_19_210104) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -21,16 +21,17 @@ ActiveRecord::Schema[7.0].define(version: 20_230_114_200_840) do
   create_enum 'project_update_reason', %w[blocked_by_SME other]
   create_enum 'project_update_time_status', %w[start pause hold finish]
 
-  create_table 'project_updates', force: :cascade do |t|
-    t.text 'note'
-    t.bigint 'project_id', null: false
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
-    t.enum 'time_status', enum_type: 'project_update_time_status'
-    t.enum 'reason', enum_type: 'project_update_reason'
-    t.index ['project_id'], name: 'index_project_updates_on_project_id'
-    t.index ['reason'], name: 'index_project_updates_on_reason'
-    t.index ['time_status'], name: 'index_project_updates_on_time_status'
+  create_table "project_updates", force: :cascade do |t|
+    t.text "note"
+    t.bigint "project_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.enum "time_status", enum_type: "project_update_time_status"
+    t.enum "stop_reason", enum_type: "project_update_reason"
+    t.boolean "is_start", default: true, null: false
+    t.index ["project_id"], name: "index_project_updates_on_project_id"
+    t.index ["stop_reason"], name: "index_project_updates_on_stop_reason"
+    t.index ["time_status"], name: "index_project_updates_on_time_status"
   end
 
   create_table 'projects', force: :cascade do |t|
