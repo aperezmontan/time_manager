@@ -3,13 +3,13 @@
   <% @project.project_updates.sort_by(&:created_at).each do |project_update| %>
     <div class="flex justify-between max-w-sm rounded overflow-hidden shadow-lg p-4">
       <div>
-        <% if project_update.time_status == "start" %>
-          <div class="text-lg text-green-500 font-semibold">
-            <%= project_update.time_status&.humanize %>
+        <% if project_update.stop_status %>
+          <div class="text-lg text-red-500 font-semibold">
+            <%= project_update.stop_status&.humanize %>
           </div>
         <% else %>
-          <div class="text-lg text-red-500 font-semibold">
-            <%= project_update.time_status&.humanize %>
+          <div class="text-lg text-green-500 font-semibold">
+            Start
           </div>
         <% end %>
         <div>

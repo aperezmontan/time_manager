@@ -1,16 +1,13 @@
 class ProjectUpdatesController < ApplicationController
+  before_action :set_project_udpate, only: %i[edit update destroy]
+
   # GET /project_updates/1/edit
-  def edit
-    @project_update = ProjectUpdate.find(params[:id])
-  end
+  def edit; end
 
   # PATCH/PUT /project_updates/1 or /project_updates/1.json
   def update
-    @project_update = ProjectUpdate.find(params[:id])
-    old_attrs = @project_update.attributes
-
     respond_to do |format|
-      if @project_update.update(old_attrs.merge!(project_update_params))
+      if @project_update.update(project_update_params)
         format.html { redirect_to project_path(@project_update.project), notice: 'Updated.' }
         format.json { render :index, status: :ok, location: @project_update }
       else
@@ -22,7 +19,6 @@ class ProjectUpdatesController < ApplicationController
 
   # DELETE /project_updates/1 or /project_updates/1.json
   def destroy
-    @project_update = ProjectUpdate.find(params[:id])
     @project_update.destroy
 
     respond_to do |format|
@@ -34,6 +30,10 @@ class ProjectUpdatesController < ApplicationController
   private
 
   def project_update_params
-    params.require(:project_update).permit(:time_status, :reason, :note, :manual_update_time)
+    params.require(:project_update).permit(:stop_status, :reason, :note, :is_start, :manually_edited_time)
+  end
+
+  def set_project_udpate
+    @project_update = ProjectUpdate.find(params[:id])
   end
 end
