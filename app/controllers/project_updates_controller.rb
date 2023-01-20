@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# The Controller for manipulating ProjectUpdates
 class ProjectUpdatesController < ApplicationController
   before_action :set_project_udpate, only: %i[edit update destroy]
 
