@@ -24,6 +24,7 @@
     </header>
     <main class="flex-1 h-screen p-5 flex-col mx-auto my-0 text-slate-800 MAIN-CONTENT">
       <%= yield %>
+      <%= turbo_frame_tag "modal" %>
     </main>
     <footer class="w-full my-2 text-center text-slate-800 FOOTER">ikn, The Bronx, 2023</footer>
   </body>

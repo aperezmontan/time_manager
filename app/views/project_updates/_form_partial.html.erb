@@ -1,0 +1,24 @@
+<% project_update ||= @project_update %>
+<% project ||= @project || project || @project_update.project %>
+<% is_start = (project_update.id && project_update.is_start) || !last_update_is_started?(project: project) %>
+<%= form.hidden_field :is_start, value: is_start %>
+<% if !is_start %>
+  <div class="input-field">
+    <%= form.label :stop_status %>
+    <div class="custom-select">
+      <%= form.select :stop_status, options_for_select(ProjectUpdate.stop_statuses.select{|_k, v| v != "start" }.map { |k, v| [k.humanize, v] }), {include_blank: "Select"}, {:required => true, :class => 'input'} %>
+    </div>
+  </div>
+<% end %>
+<div class="input-field">
+  <%= form.label :reason %>
+  <div class="custom-select">
+    <%= form.select :reason, options_for_select(ProjectUpdate.reasons.map { |k, v| [k.humanize, v] }, selected: project_update.reason), include_blank: "Select", class: "input" %>
+  </div>
+</div>
+<div class="input-field">
+  <%= form.label :note %>
+  <div class="custom-select">
+    <%= form.text_area :note, placeholder: "Write something here...", class: "shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2" %>
+  </div>
+</div>

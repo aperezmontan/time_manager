@@ -1,26 +1,33 @@
 <h1 class="font-bold text-2xl"><%= @project.name %></h1>
 <% if @project.project_updates.any? %>
-  <% @project.project_updates.each do |project_update| %>
-    <div class="max-w-sm rounded overflow-hidden shadow-lg p-4">
-      <% if project_update.time_status == "start" %>
-        <div class="text-lg text-green-500 font-semibold">
-          <%= project_update.time_status&.humanize %>
-        </div>
-      <% else %>
-        <div class="text-lg text-red-500 font-semibold">
-          <%= project_update.time_status&.humanize %>
-        </div>
-      <% end %>
+  <% @project.project_updates.sort_by(&:created_at).each do |project_update| %>
+    <div class="flex justify-between max-w-sm rounded overflow-hidden shadow-lg p-4">
       <div>
+        <% if project_update.stop_status %>
+          <div class="text-lg text-red-500 font-semibold">
+            <%= project_update.stop_status&.humanize %>
+          </div>
+        <% else %>
+          <div class="text-lg text-green-500 font-semibold">
+            Start
+          </div>
+        <% end %>
         <div>
-          Time: <%= project_update.created_at.strftime("%_m/%-d %l:%M") %>
+          <div>
+            Time: <%= project_update.created_at.strftime("%_m/%-d %l:%M") %>
+          </div>
+          <div>
+            Reason: <%= project_update.reason&.humanize %>
+          </div>
+          <div>
+            Note: <%= project_update.note %>
+          </div>
         </div>
-        <div>
-          Reason: <%= project_update.reason&.humanize %>
-        </div>
-        <div>
-          Note: <%= project_update.note %>
-        </div>
+      </div>
+      <div class="flex flex-col justify-center items-center">
+        <%= link_to "Update", edit_project_update_path(project_update), class: "btn bg-blue-600 text-white", data: { turbo_frame: "modal" } %>
+        <%# NOTE ! DELETE BUTTON FOR PROJECT UPDATES HERE. MUST DECIDE IF WE WANT THIS FUNCTIONALITY %>
+        <%# <%= button_to "Delete", project_update_path(project_update), class: "btn bg-red-600 text-white", data: { turbo_method: :delete, turbo_confirm: 'Are you sure you want to delete this project ?' } %>
       </div>
     </div>
   <% end %>

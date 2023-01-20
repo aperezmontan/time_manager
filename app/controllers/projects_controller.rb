@@ -5,7 +5,7 @@ class ProjectsController < ApplicationController
   before_action :set_project, only: %i[show edit update destroy]
 
   def index
-    @projects = Project.all
+    @projects = Project.includes(:project_updates).all
     @new_project = Project.new
   end
 
@@ -59,11 +59,9 @@ class ProjectsController < ApplicationController
   private
 
   def project_params
-    params.require(:project).permit(:name, project_update: %i[time_status reason note])
-  end
-
-  def project_update_params
-    project_params.fetch(:project_update)
+    params.require(:project).permit(:name,
+                                    project_updates_attributes: %i[stop_status reason note is_start
+                                                                   manually_edited_time])
   end
 
   def set_project
