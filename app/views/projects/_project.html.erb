@@ -22,9 +22,9 @@
 <div class="col-span-1 flex justify-end border-b-2 BUTTONS-CONTAINER">
   <div class="START-STOP-BUTTON">
     <% if next_update_is_start %>
-      <%= link_to "Start", edit_project_path(project), class: "btn bg-green-100" %>
+      <%= link_to "Start", edit_project_path(project), class: "btn bg-green-100", data: { turbo_frame: "modal" } %>
     <% else %>
-      <%= link_to "Stop", edit_project_path(project), class: "btn bg-red-100" %>
+      <%= link_to "Stop", edit_project_path(project), class: "btn bg-red-100", data: { turbo_frame: "modal" } %>
     <% end %>
   </div>
   <div class="DELETE-BUTTON">
