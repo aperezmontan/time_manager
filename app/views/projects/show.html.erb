@@ -35,6 +35,6 @@
   No updates
 <% end %>
 <div class="py-4">
-  <%= link_to "New Update", edit_project_path(@project), class: "btn py-2 ml-2 bg-black text-white" %> |
+  <%= link_to "New Update", edit_project_path(@project), class: "btn py-2 ml-2 bg-black text-white", data: { turbo_frame: "modal" } %> |
   <%= link_to "Back", projects_path, class: "btn py-2 bg-black text-white" %>
 </div>

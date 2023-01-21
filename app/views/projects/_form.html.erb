@@ -5,6 +5,6 @@
   <% if project_update %>
     <%= render "project_updates/form", project: project, project_update: project_update, form: form %>
   <% end %>
-  <%= link_to "Cancel", projects_path, class: "btn py-2 ml-2 bg-gray-100" %>
+  <%= link_to "Cancel", :back, class: "btn py-2 ml-2 bg-gray-100" %>
   <%= form.submit "Save", class: "btn py-2 ml-2 bg-blue-600 text-white" %>
 <% end %>

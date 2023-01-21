@@ -1,7 +1,7 @@
 <% next_update_is_start = !last_update_is_started?(project: project) %>
 <% stop_status = last_update_current_status(project: project) %>
 <div class="col-span-2 border-b-2">
-  <%= link_to(project_path(project), {class: "flex justify-between"}) do %>
+  <%= link_to(project_path(project), {class: "flex"}) do %>
     <div class="flex flex-col">
       <div class="font-semibold text-sky-900">
         <%= project.name %>
@@ -12,7 +12,7 @@
       </div>
     </div>
     <% if project.project_updates.last&.note.present? %>
-      <div class="sm:flex hidden items-center text-sm truncate max-w-[200px]">
+      <div class="pl-4 sm:flex hidden items-center text-sm truncate max-w-[265px]">
         Last note: 
         <p class="truncate">&nbsp<%= project.project_updates.last&.note %></p>
       </div>
@@ -22,9 +22,9 @@
 <div class="col-span-1 flex justify-end border-b-2 BUTTONS-CONTAINER">
   <div class="START-STOP-BUTTON">
     <% if next_update_is_start %>
-      <%= link_to "Start", edit_project_path(project), class: "btn bg-green-100" %>
+      <%= link_to "Start", edit_project_path(project), class: "btn bg-green-100", data: { turbo_frame: "modal" } %>
     <% else %>
-      <%= link_to "Stop", edit_project_path(project), class: "btn bg-red-100" %>
+      <%= link_to "Stop", edit_project_path(project), class: "btn bg-red-100", data: { turbo_frame: "modal" } %>
     <% end %>
   </div>
   <div class="DELETE-BUTTON">
