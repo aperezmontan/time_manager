@@ -9,7 +9,7 @@
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
-  <body>
+  <body class="flex flex-col h-screen BODY">
     <header class="w-full flex px-6 py-4 justify-between items-center text-white bg-slate-800 NAVBAR">
       <div class="text-xl font-bold NAVBAR-TITLE">TimeManager</div>
       <ul class="list-none sm:flex hidden justify-end items-center flex-1">
@@ -22,10 +22,10 @@
       <div class="sm:hidden flex flex-1 justify-end items-center">
       </div>
     </header>
-    <main class="flex-1 h-screen p-5 flex-col mx-auto my-0 text-slate-800 MAIN-CONTENT">
+    <main class="flex-1 p-5 flex-col mx-auto my-0 text-slate-800 MAIN-CONTENT">
       <%= yield %>
       <%= turbo_frame_tag "modal" %>
     </main>
-    <footer class="w-full my-2 text-center text-slate-800 FOOTER">ikn, The Bronx, 2023</footer>
+    <footer class="w-full my-2 text-xs text-center text-slate-800 FOOTER">&copyikn, The Bronx, 2023</footer>
   </body>
 </html>
