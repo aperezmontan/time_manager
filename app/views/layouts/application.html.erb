@@ -10,7 +10,7 @@
     <%= javascript_importmap_tags %>
   </head>
   <body class="flex flex-col h-screen BODY">
-    <header class="w-full flex px-6 py-4 justify-between items-center text-white bg-slate-800 NAVBAR">
+    <header class="w-full flex flex-wrap px-6 py-4 justify-between items-center text-white bg-slate-800 NAVBAR">
       <div class="text-xl font-bold NAVBAR-TITLE">TimeManager</div>
       <ul class="list-none sm:flex hidden justify-end items-center flex-1">
         <% ['home', 'features', 'clients', 'about'].each do |link| %>
@@ -19,13 +19,25 @@
           </li>
         <% end %>
       </ul>
-      <div class="sm:hidden flex flex-1 justify-end items-center">
-      </div>
-    </header>
-    <main class="p-5 my-0 text-slate-800 MAIN-CONTENT">
-      <%= yield %>
-      <%= turbo_frame_tag "modal" %>
-    </main>
-    <footer class="w-full my-2 text-xs text-center text-slate-800 FOOTER">&copyikn, The Bronx, 2023</footer>
-  </body>
-</html>
+      <label for="mobile-menu-toggle" class="sm:hidden flex flex-col cursor-pointer flex-1 items-end">
+        <div class="w-[25px] h-[2px] bg-white mx-0 my-[3px]"></div>
+        <div class="w-[25px] h-[2px] bg-white mx-0 my-[3px]"></div>
+        <div class="w-[25px] h-[2px] bg-white mx-0 my-[3px]"></div>
+      </label>
+      <input id="mobile-menu-toggle" type="checkbox" class="hidden" name="mobile-menu-toggle" value="0" autocomplete="off"/>
+      <div id="mobile-menu-break" class="w-full h-0 basis-full hidden"></div>
+      <div id="mobile-menu-items" class="hidden flex-col w-full items-start">
+        <% ['home', 'features', 'clients', 'about'].each do |link| %>
+          <div class="font-normal text-[20px] py-4 last-of-type:mr-0">
+            <%= link_to link.humanize, '/' %>
+          </div>
+        <% end %>
+        <div>
+        </header>
+        <main class="p-5 my-0 text-slate-800 MAIN-CONTENT">
+          <%= yield %>
+          <%= turbo_frame_tag "modal" %>
+        </main>
+        <footer class="w-full my-2 text-xs text-center text-slate-800 FOOTER">&copyikn, The Bronx, 2023</footer>
+      </body>
+    </html>
