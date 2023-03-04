@@ -13,9 +13,24 @@
     <header class="w-full flex flex-wrap px-6 py-4 justify-between items-center text-white bg-slate-800 NAVBAR">
       <div class="text-xl font-bold NAVBAR-TITLE">TimeManager</div>
       <ul class="list-none sm:flex hidden justify-end items-center flex-1">
-        <% ['home', 'features', 'clients', 'about'].each do |link| %>
-          <li class="font-normal text-[16px] mr-10 last-of-type:mr-0">
-            <%= link_to link.humanize, '/' %>
+        <%# TODO!: ALL OF THIS IS GROSS. FIX ! %>
+        <% links = ['home', 'features', 'clients', 'about'] %>
+        <% if current_user %>
+          <% links.append('logout') %>
+        <% else %>
+          <% links.append('login', 'sign up') %>
+        <% end %>
+        <% links.each do |link| %>
+          <li class="font-normal text-[16px] mr-2 md:mr-4 last-of-type:mr-0">
+            <% if link == 'login' %>
+              <%= link_to link.humanize, new_user_session_path, class: "btn bg-green-600 text-white" %>
+            <% elsif link == 'sign up' %>
+              <%= link_to link.humanize, new_user_registration_path, class: "btn bg-blue-600 text-white" %>
+            <% elsif link == 'logout' %>
+              <%= link_to link.humanize, destroy_user_session_path, data: { turbo_method: :delete }, class: "btn bg-red-600 text-white" %>
+            <% else %>
+              <%= link_to link.humanize, '/' %>
+            <% end %>
           </li>
         <% end %>
       </ul>
@@ -27,9 +42,18 @@
       <input id="mobile-menu-toggle" type="checkbox" class="hidden" name="mobile-menu-toggle" value="0" autocomplete="off"/>
       <div id="mobile-menu-break" class="w-full h-0 basis-full hidden"></div>
       <div id="mobile-menu-items" class="hidden flex-col w-full items-start">
-        <% ['home', 'features', 'clients', 'about'].each do |link| %>
+        <%# TODO!: EXACTLY THE SAME AS ABOVE. ALL OF THIS IS GROSS. FIX ! %>
+        <% links.each do |link| %>
           <div class="font-normal text-[20px] py-4 last-of-type:mr-0">
-            <%= link_to link.humanize, '/' %>
+            <% if link == 'login' %>
+              <%= link_to link.humanize, new_user_session_path, class: "btn bg-green-600 text-white" %>
+            <% elsif link == 'sign up' %>
+              <%= link_to link.humanize, new_user_registration_path, class: "btn bg-blue-600 text-white" %>
+            <% elsif link == 'logout' %>
+              <%= link_to link.humanize, destroy_user_session_path, data: { turbo_method: :delete }, class: "btn bg-red-600 text-white" %>
+            <% else %>
+              <%= link_to link.humanize, '/' %>
+            <% end %>
           </div>
         <% end %>
         <div>

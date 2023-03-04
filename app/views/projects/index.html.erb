@@ -3,17 +3,23 @@
     <%= notice %>
   </p>
 <% end %>
-<div id="new-project" class="flex flex-col items-center NEW-PROJECT-CONTAINER">
-  <h1 class="font-bold text-2xl">New Project</h1>
-  <div class="mb-4">
-    <%= form_with model: @new_project do |form| %>
-      <div class="flex items-baseline">
-        <%= form.text_field :name, placeholder: "Add a new project...", class: "shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2" %>
-        <%= form.button "Save", class: "btn py-2 ml-2 bg-blue-600 text-white" %>
-      </div>
-    <% end %>
+<% if current_user %>
+  <div id="new-project" class="flex flex-col items-center NEW-PROJECT-CONTAINER">
+    <h1 class="font-bold text-2xl">New Project</h1>
+    <div class="mb-4">
+      <%= form_with model: @new_project do |form| %>
+        <div class="flex items-baseline">
+          <%= form.text_field :name, placeholder: "Add a new project...", class: "shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2" %>
+          <%= form.button "Save", class: "btn py-2 ml-2 bg-blue-600 text-white" %>
+        </div>
+      <% end %>
+    </div>
   </div>
-</div>
+<% else %>
+  <div id="new-project" class="flex flex-col items-center NEW-PROJECT-CONTAINER">
+    <h1 class="font-bold text-2xl">Sign in to start !</h1>
+  </div>
+<% end %>
 <div id="projects" class="flex flex-col min-w-[325px] max-w-[768px] my-0 mx-auto PROJECTS-CONTAINER">
   <h1 class="font-bold text-xl mb-2">Projects</h1>
   <div class="grid grid-cols-3 gap-y-4" data-controller="projects">
