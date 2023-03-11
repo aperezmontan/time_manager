@@ -53,7 +53,9 @@ gem 'bootsnap', require: false
 # Tailwind CSS for Rails. https://github.com/rails/tailwindcss-rails
 gem 'tailwindcss-rails', '~> 2.0'
 
+# Auth
 gem 'devise', github: 'heartcombo/devise', branch: 'main'
+gem 'pundit'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
