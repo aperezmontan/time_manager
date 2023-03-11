@@ -15,56 +15,58 @@
       <% if current_user&.admin? %>
         <span class="text-5xl ADMIN-HAMMER">🔨</span>
       <% end %>
-      <ul class="list-none sm:flex hidden justify-end items-center flex-1">
-        <%# TODO!: ALL OF THIS IS GROSS. FIX ! %>
-        <% links = ['home', 'features', 'clients', 'about'] %>
+      <% if current_user %>
+        <ul class="list-none sm:flex hidden justify-end items-center flex-1">
+          <%# TODO!: ALL OF THIS IS GROSS. FIX ! %>
+          <% links = ['home', 'features', 'clients', 'about', 'logout'] %>
+          <% links.each do |link| %>
+            <li class="font-normal text-[16px] mr-2 md:mr-4 last-of-type:mr-0">
+              <% if link == 'logout' %>
+                <%= link_to link.humanize, destroy_user_session_path, data: { turbo_method: :delete }, class: "btn bg-red-600 text-white" %>
+              <% else %>
+                <%= link_to link.humanize, '/' %>
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
+        <label for="mobile-menu-toggle" class="sm:hidden flex flex-col cursor-pointer flex-1 items-end">
+          <div class="w-[25px] h-[2px] bg-white mx-0 my-[3px]"></div>
+          <div class="w-[25px] h-[2px] bg-white mx-0 my-[3px]"></div>
+          <div class="w-[25px] h-[2px] bg-white mx-0 my-[3px]"></div>
+        </label>
+        <input id="mobile-menu-toggle" type="checkbox" class="hidden" name="mobile-menu-toggle" value="0" autocomplete="off"/>
+        <div id="mobile-menu-break" class="w-full h-0 basis-full hidden"></div>
+        <% style_class = "justify-center" %>
         <% if current_user %>
-          <% links.append('logout') %>
-        <% else %>
-          <% links.append('login', 'sign up') %>
+          <% style_class = "flex-col" %>
         <% end %>
-        <% links.each do |link| %>
-          <li class="font-normal text-[16px] mr-2 md:mr-4 last-of-type:mr-0">
-            <% if link == 'login' %>
-              <%= link_to link.humanize, new_user_session_path, class: "btn bg-green-600 text-white" %>
-            <% elsif link == 'sign up' %>
-              <%= link_to link.humanize, new_user_registration_path, class: "btn bg-blue-600 text-white" %>
-            <% elsif link == 'logout' %>
-              <%= link_to link.humanize, destroy_user_session_path, data: { turbo_method: :delete }, class: "btn bg-red-600 text-white" %>
-            <% else %>
-              <%= link_to link.humanize, '/' %>
-            <% end %>
-          </li>
+        <div id="mobile-menu-items" class="hidden items-end w-full flex-col">
+          <%# TODO!: EXACTLY THE SAME AS ABOVE. ALL OF THIS IS GROSS. FIX ! %>
+          <% links.each do |link| %>
+            <div class="font-normal text-[20px] py-2 last-of-type:ml-2">
+              <% if link == 'logout' %>
+                <%= link_to link.humanize, destroy_user_session_path, data: { turbo_method: :delete }, class: "btn bg-red-600 text-white" %>
+              <% else %>
+                <%= link_to link.humanize, '/' %>
+              <% end %>
+            </div>
+          <% end %>
         <% end %>
-      </ul>
-      <label for="mobile-menu-toggle" class="sm:hidden flex flex-col cursor-pointer flex-1 items-end">
-        <div class="w-[25px] h-[2px] bg-white mx-0 my-[3px]"></div>
-        <div class="w-[25px] h-[2px] bg-white mx-0 my-[3px]"></div>
-        <div class="w-[25px] h-[2px] bg-white mx-0 my-[3px]"></div>
-      </label>
-      <input id="mobile-menu-toggle" type="checkbox" class="hidden" name="mobile-menu-toggle" value="0" autocomplete="off"/>
-      <div id="mobile-menu-break" class="w-full h-0 basis-full hidden"></div>
-      <div id="mobile-menu-items" class="hidden flex-col w-full items-start">
-        <%# TODO!: EXACTLY THE SAME AS ABOVE. ALL OF THIS IS GROSS. FIX ! %>
-        <% links.each do |link| %>
-          <div class="font-normal text-[20px] py-4 last-of-type:mr-0">
-            <% if link == 'login' %>
-              <%= link_to link.humanize, new_user_session_path, class: "btn bg-green-600 text-white" %>
-            <% elsif link == 'sign up' %>
-              <%= link_to link.humanize, new_user_registration_path, class: "btn bg-blue-600 text-white" %>
-            <% elsif link == 'logout' %>
-              <%= link_to link.humanize, destroy_user_session_path, data: { turbo_method: :delete }, class: "btn bg-red-600 text-white" %>
-            <% else %>
-              <%= link_to link.humanize, '/' %>
-            <% end %>
-          </div>
+      </header>
+      <main class="p-5 my-0 text-slate-800 MAIN-CONTENT">
+        <% if notice.present? %>
+          <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice">
+            <%= notice %>
+          </p>
         <% end %>
-        <div>
-        </header>
-        <main class="p-5 my-0 text-slate-800 MAIN-CONTENT">
-          <%= yield %>
-          <%= turbo_frame_tag "modal" %>
-        </main>
-        <footer class="w-full my-2 text-xs text-center text-slate-800 FOOTER">&copyikn, The Bronx, 2023</footer>
-      </body>
-    </html>
+        <% if alert.present? %>
+          <p class="py-2 px-3 bg-red-50 mb-5 text-red-500 font-medium rounded-lg inline-block" id="alert">
+            <%= alert %>
+          </p>
+        <% end %>
+        <%= yield %>
+        <%= turbo_frame_tag "modal" %>
+      </main>
+      <footer class="w-full my-2 text-xs text-center text-slate-800 FOOTER">&copyikn, The Bronx, 2023</footer>
+    </body>
+  </html>
