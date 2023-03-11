@@ -4,11 +4,6 @@
     <%= render "project_updates/form_partial", form: project_update_form %>
   <% end %>
 <% else %>
-  <% if alert.present? %>
-    <p class="py-2 px-3 bg-red-50 mb-5 text-red-500 font-medium rounded-lg inline-block" id="alert">
-      <%= alert %>
-    </p>
-  <% end %>
   <div>
     <h1 class="font-bold text-2xl mb-3"><%= current_status_in_words(project_update: project_update) %></h1>
     <%= form_with(model: project_update) do |form| %>

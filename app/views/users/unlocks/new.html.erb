@@ -1,0 +1,14 @@
+<div class="font-bold text-2xl">Resend unlock instructions</div>
+<%= form_for(resource, as: resource_name, url: unlock_path(resource_name), html: { method: :post }) do |f| %>
+  <%= render "users/shared/error_messages", resource: resource %>
+  <div class="field">
+    <%= f.label :email %><br />
+    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+  </div>
+  <div class="actions">
+    <%= f.submit "Resend unlock instructions" %>
+  </div>
+<% end %>
+<div class="flex flex-col items-start pt-1">
+  <%= render "users/shared/links" %>
+</div>
