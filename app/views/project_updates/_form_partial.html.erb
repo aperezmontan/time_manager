@@ -4,21 +4,21 @@
 <%= form.hidden_field :is_start, value: is_start %>
 <% if !is_start %>
   <div class="input-field">
-    <%= form.label :stop_status %>
+    <%= form.label :stop_status, class: "block mt-2 text-sm font-medium text-gray-900" %>
     <div class="custom-select">
-      <%= form.select :stop_status, options_for_select(ProjectUpdate.stop_statuses.select{|_k, v| v != "start" }.map { |k, v| [k.humanize, v] }), {include_blank: "Select"}, {:required => true, :class => 'input'} %>
+      <%= form.select :stop_status, options_for_select(ProjectUpdate.stop_statuses.select{|_k, v| v != "start" }.map { |k, v| [k.humanize, v] }), {include_blank: "Select"}, {:required => true, class: "input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"} %>
     </div>
   </div>
 <% end %>
 <div class="input-field">
-  <%= form.label :reason %>
+  <%= form.label :reason, class: "block mt-2 text-sm font-medium text-gray-900" %>
   <div class="custom-select">
-    <%= form.select :reason, options_for_select(ProjectUpdate.reasons.map { |k, v| [k.humanize, v] }, selected: project_update.reason), include_blank: "Select", class: "input" %>
+    <%= form.select :reason, options_for_select(ProjectUpdate.reasons.map { |k, v| [k.humanize, v] }, selected: project_update.reason), {include_blank: "Select"}, {class: "input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"} %>
   </div>
 </div>
 <div class="input-field">
-  <%= form.label :note %>
+  <%= form.label :note, class: "block mt-2 text-sm font-medium text-gray-900" %>
   <div class="custom-select">
-    <%= form.text_area :note, placeholder: "Write something here...", class: "shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2" %>
+    <%= form.text_area :note, placeholder: "Write something here...", class: "input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" %>
   </div>
 </div>

@@ -10,14 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_10_102056) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_11_152344) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   # Custom types defined in this database.
   # Note that some types may not work with other database engines. Be careful if changing database.
+  create_enum "level", ["owner", "view", "edit"]
   create_enum "project_update_reason", ["blocked_by_SME", "other"]
   create_enum "project_update_time_status", ["start", "pause", "hold", "finish"]
+
+  create_table "project_access_controls", force: :cascade do |t|
+    t.bigint "project_id", null: false
+    t.bigint "user_id", null: false
+    t.enum "level", default: "view", null: false, enum_type: "level"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id", "user_id"], name: "by_project_and_user", unique: true
+    t.index ["project_id"], name: "index_project_access_controls_on_project_id"
+    t.index ["user_id"], name: "index_project_access_controls_on_user_id"
+  end
 
   create_table "project_updates", force: :cascade do |t|
     t.text "note"
@@ -52,5 +64,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_10_102056) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "project_access_controls", "projects"
+  add_foreign_key "project_access_controls", "users"
   add_foreign_key "project_updates", "projects"
 end

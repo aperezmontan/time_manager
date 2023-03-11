@@ -1,10 +1,13 @@
-<%= form_with model: project, class: "mb-7" do |form| %>
-  <div class="mb-5">
-    <%= form.text_field :name, placeholder: "Add a new project...", class: "shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2" %>
+<%= form_with model: project do |form| %>
+  <div class="PROJECT-NAME-INPUT">
+    <%= form.label :name, class: "block mt-2 text-sm font-medium text-gray-900" %>
+    <%= form.text_field :name, placeholder: "Add a new project...", class: "input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" %>
   </div>
   <% if project_update %>
     <%= render "project_updates/form", project: project, project_update: project_update, form: form %>
   <% end %>
-  <%= link_to "Cancel", :back, class: "btn py-2 ml-2 bg-gray-100" %>
-  <%= form.submit "Save", class: "btn py-2 ml-2 bg-blue-600 text-white" %>
+  <div class="flex justify-center sm:justify-end PROJECT-FORM-BUTTONS">
+    <%= link_to "Cancel", :back, class: "btn py-2 bg-gray-100" %>
+    <%= form.submit "Save", class: "btn py-2 ml-2 bg-blue-600 text-white" %>
+  </div>
 <% end %>
