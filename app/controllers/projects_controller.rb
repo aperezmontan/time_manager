@@ -3,9 +3,11 @@
 # The Controller for manipulating Projects
 class ProjectsController < ApplicationController
   before_action :set_project, only: %i[show edit update destroy]
+  before_action :authenticate_user!
+  before_action :authorize_user, except: %i[show edit index]
 
   def index
-    @projects = Project.includes(:project_updates).all
+    @projects = policy_scope(Project).includes(:project_updates).all
     @new_project = Project.new
   end
 
@@ -23,7 +25,7 @@ class ProjectsController < ApplicationController
     @project = Project.new(project_params)
 
     respond_to do |format|
-      if @project.save
+      if project_save
         format.html { redirect_to projects_url, notice: 'Project was successfully created.' }
         format.json { render :index, status: :created, location: @project }
       else
@@ -58,13 +60,31 @@ class ProjectsController < ApplicationController
 
   private
 
+  def authorize_user
+    project = @project || Project
+    authorize(project)
+  end
+
   def project_params
     params.require(:project).permit(:name,
                                     project_updates_attributes: %i[stop_status reason note is_start
                                                                    manually_edited_time])
   end
 
+  # Wraps the save and the access control in a transaction so that
+  # either both are saved or neither
+  def project_save
+    ActiveRecord::Base.transaction do
+      @project.save!
+      @project_access_control = ProjectAccessControl.new(project: @project, user: current_user,
+                                                         level: ProjectAccessControl.levels.fetch('owner'))
+      @project_access_control.save!
+    end
+  end
+
   def set_project
-    @project = Project.includes(:project_updates).find(params[:id])
+    @project = policy_scope(Project).includes(:project_updates).find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to projects_url, alert: 'Project not found'
   end
 end

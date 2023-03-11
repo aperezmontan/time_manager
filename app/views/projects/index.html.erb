@@ -16,8 +16,12 @@
   </div>
 <% end %>
 <div id="projects" class="flex flex-col min-w-[325px] max-w-[768px] my-0 mx-auto PROJECTS-CONTAINER">
-  <h1 class="font-bold text-xl mb-2">Projects</h1>
-  <div class="grid grid-cols-3 gap-y-4" data-controller="projects">
-    <%= render @projects %>
-  </div>
+  <% if @projects.empty? %>
+    <p class="font-bold text-l mb-2 text-center">Save your first project above to get started !</p>
+  <% else %>
+    <h1 class="font-bold text-xl mb-2">Projects</h1>
+    <div class="grid grid-cols-3 gap-y-4" data-controller="projects">
+      <%= render @projects %>
+    </div>
+  <% end %>
 </div>

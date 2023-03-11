@@ -3,25 +3,23 @@
   <div class="font-bold text-2xl">Sign up</div>
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
     <div class="field mt-2">
-      <%= f.label :email %><br />
-      <%= f.email_field :email, class: "mt-1", autofocus: true, autocomplete: "email" %>
+      <%= f.label :email, class: "block mt-2 text-sm font-medium text-gray-900" %>
+      <%= f.email_field :email, class: "input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5", autofocus: true, autocomplete: "email" %>
     </div>
-    <div class="field mt-2">
-      <%= f.label :password %>
+    <div class="field">
+      <%= f.label :password, class: "inline-block mt-2 text-sm font-medium text-gray-900" %>
       <% if @minimum_password_length %>
-        <em class="text-xs">(<%= @minimum_password_length %> characters minimum)</em>
-      <% end %><br />
-      <%= f.password_field :password, class: "mt-1", autocomplete: "new-password" %>
+        <em class="inline-block mt-2 text-xs font-medium text-gray-900">(<%= @minimum_password_length %> characters minimum)</em>
+      <% end %>
+      <%= f.password_field :password, class: "input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5", autocomplete: "new-password" %>
     </div>
     <div class="field mt-2">
-      <%= f.label :password_confirmation %><br />
-      <%= f.password_field :password_confirmation, class: "mt-1", autocomplete: "new-password" %>
+      <%= f.label :password_confirmation, class: "block mt-2 text-sm font-medium text-gray-900" %>
+      <%= f.password_field :password_confirmation, class: "input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5", autocomplete: "new-password" %>
     </div>
     <div class="actions flex justify-center">
       <%= f.submit "Sign up", class: "btn bg-blue-600 text-white" %>
     </div>
   <% end %>
   <%= render "users/shared/links" %>
-  <div class="flex flex-col items-start pt-1">
-  </div>
 </div>

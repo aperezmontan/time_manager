@@ -19,17 +19,19 @@
     <% end %>
   <% end %>
 </div>
-<div class="col-span-1 flex justify-end border-b-2 BUTTONS-CONTAINER">
-  <div class="START-STOP-BUTTON">
-    <% if next_update_is_start %>
-      <%= link_to "Start", edit_project_path(project), class: "btn bg-green-100", data: { turbo_frame: "modal" } %>
-    <% else %>
-      <%= link_to "Stop", edit_project_path(project), class: "btn bg-red-100", data: { turbo_frame: "modal" } %>
-    <% end %>
-  </div>
-  <div class="DELETE-BUTTON">
-    <%= link_to "🗑", project_path(project),
+<% if project.project_access_controls.select(:level).map(&:level).include?("owner") %>
+  <div class="col-span-1 flex justify-end border-b-2 BUTTONS-CONTAINER">
+    <div class="START-STOP-BUTTON">
+      <% if next_update_is_start %>
+        <%= link_to "Start", edit_project_path(project), class: "btn bg-green-100", data: { turbo_frame: "modal" } %>
+      <% else %>
+        <%= link_to "Stop", edit_project_path(project), class: "btn bg-red-100", data: { turbo_frame: "modal" } %>
+      <% end %>
+    </div>
+    <div class="DELETE-BUTTON">
+      <%= link_to "🗑", project_path(project),
                     data: { turbo_method: :delete, turbo_confirm: 'Are you sure you want to delete this project ?' },
                     class: "btn px-1 text-white ml-2" %>
+    </div>
   </div>
-</div>
+<% end %>
