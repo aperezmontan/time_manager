@@ -25,7 +25,7 @@ class ProjectUpdatesController < ApplicationController
     @project_update.destroy
 
     respond_to do |format|
-      format.html { redirect_to project_updates_url, notice: 'Update was successfully destroyed.' }
+      format.html { redirect_to project_url(@project_update.project), notice: 'Update was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -37,6 +37,6 @@ class ProjectUpdatesController < ApplicationController
   end
 
   def set_project_udpate
-    @project_update = ProjectUpdate.find(params[:id])
+    @project_update = ProjectUpdate.includes(:project).find(params[:id])
   end
 end
