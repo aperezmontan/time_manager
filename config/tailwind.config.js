@@ -12,6 +12,9 @@ module.exports = {
       fontFamily: {
         sans: ["Inter", "Avenir", "Inter var", ...defaultTheme.fontFamily.sans],
       },
+      rotate: {
+        135: "135deg",
+      },
     },
   },
   plugins: [
