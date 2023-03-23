@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>TimeManager</title>
+    <title>TimeTraveler</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+    <%= favicon_link_tag asset_path('favicon.ico') %>
   </head>
   <body class="flex flex-col h-screen BODY">
     <header class="w-full flex flex-wrap px-6 py-4 justify-between items-center text-white bg-slate-800 NAVBAR">
-      <div class="text-xl font-bold NAVBAR-TITLE">TimeManager</div>
+      <div class="text-xl font-bold NAVBAR-TITLE">TimeTraveler</div>
       <% if current_user&.admin? %>
         <span class="text-5xl ADMIN-HAMMER">🔨</span>
       <% end %>
