@@ -69,7 +69,7 @@ class ProjectsController < ApplicationController
 
   def project_params
     params.require(:project).permit(:name,
-                                    project_updates_attributes: %i[stop_status reason note is_start
+                                    project_updates_attributes: %i[status reason note is_start
                                                                    manually_edited_time])
   end
 
