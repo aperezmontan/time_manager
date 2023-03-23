@@ -6,11 +6,13 @@ class ProjectUpdate < ApplicationRecord
 
   # Have to do it like this because for some reason I get an undefined method error
   # if I try to put it in a helper or concern 🤷‍♂️
-  enum stop_status: { start: 'start', pause: 'pause', hold: 'hold', finish: 'finish' }
-  enum reason: { blocked_by_SME: 'blocked_by_SME', other: 'other' }
+  enum status: { started: 'started', stopped: 'stopped', finished: 'finished' }
+  enum reason: { out_of_office: 'out_of_office', vacation: 'vacation', funding: 'funding',
+                 contract_missing_items: 'contract_missing_items', schedule_conflicts: 'schedule_conflicts',
+                 blocked_by_SME: 'blocked_by_SME', other: 'other' }
 
   # VALIDATIONS
-  validates :stop_status, presence: { unless: :is_start }
+  validates :status, presence: true
 
   # ATTEMPT TO BE MORE EFFICIENT
   # def self.latest_updates_for_projects

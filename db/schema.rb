@@ -10,15 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_11_152344) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_14_230626) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   # Custom types defined in this database.
   # Note that some types may not work with other database engines. Be careful if changing database.
   create_enum "level", ["owner", "view", "edit"]
-  create_enum "project_update_reason", ["blocked_by_SME", "other"]
-  create_enum "project_update_time_status", ["start", "pause", "hold", "finish"]
+  create_enum "project_update_reason", ["out_of_office", "vacation", "funding", "contract_missing_items", "schedule_conflicts", "blocked_by_SME", "other"]
+  create_enum "project_update_status", ["started", "stopped", "finished"]
 
   create_table "project_access_controls", force: :cascade do |t|
     t.bigint "project_id", null: false
@@ -36,13 +36,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_11_152344) do
     t.bigint "project_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.enum "stop_status", enum_type: "project_update_time_status"
     t.enum "reason", enum_type: "project_update_reason"
-    t.boolean "is_start", default: true, null: false
     t.datetime "manually_edited_time", default: -> { "CURRENT_TIMESTAMP" }
+    t.enum "status", default: "started", enum_type: "project_update_status"
     t.index ["project_id"], name: "index_project_updates_on_project_id"
     t.index ["reason"], name: "index_project_updates_on_reason"
-    t.index ["stop_status"], name: "index_project_updates_on_stop_status"
+    t.index ["status"], name: "index_project_updates_on_status"
   end
 
   create_table "projects", force: :cascade do |t|

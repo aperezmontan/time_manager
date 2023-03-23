@@ -1,21 +1,22 @@
 <% project_update ||= @project_update %>
 <% project ||= @project || project || @project_update.project %>
-<% is_start = (project_update.id && project_update.is_start) || !last_update_is_started?(project: project) %>
-<%= form.hidden_field :is_start, value: is_start %>
-<% if !is_start %>
+<% stop = (project_update&.stopped? || project_update&.finished?) || last_update_is_started?(project: project) %>
+<% status_value = stop ? "stopped" : "started" %>
+<%= form.hidden_field :status, value: status_value %>
+<% if stop %>
   <div class="input-field">
-    <%= form.label :stop_status, class: "block mt-2 text-sm font-medium text-gray-900" %>
+    <div class="field flex items-center mt-2">
+      <%= check_box_tag :finished, true, project_update.finished?, class: 'input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500' %>
+      <%= label_tag :finished, "Finish?", class: "pl-1" %>
+    </div>
+  </div>
+  <div class="input-field">
+    <%= form.label :reason, class: "block mt-2 text-sm font-medium text-gray-900" %>
     <div class="custom-select">
-      <%= form.select :stop_status, options_for_select(ProjectUpdate.stop_statuses.select{|_k, v| v != "start" }.map { |k, v| [k.humanize, v] }), {include_blank: "Select"}, {:required => true, class: "input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"} %>
+      <%= form.select :reason, options_for_select(ProjectUpdate.reasons.map { |k, v| [k.humanize, v] }, selected: project_update.reason), {include_blank: "Select"}, {class: "input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"} %>
     </div>
   </div>
 <% end %>
-<div class="input-field">
-  <%= form.label :reason, class: "block mt-2 text-sm font-medium text-gray-900" %>
-  <div class="custom-select">
-    <%= form.select :reason, options_for_select(ProjectUpdate.reasons.map { |k, v| [k.humanize, v] }, selected: project_update.reason), {include_blank: "Select"}, {class: "input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"} %>
-  </div>
-</div>
 <div class="input-field">
   <%= form.label :note, class: "block mt-2 text-sm font-medium text-gray-900" %>
   <div class="custom-select">

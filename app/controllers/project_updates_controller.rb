@@ -10,7 +10,10 @@ class ProjectUpdatesController < ApplicationController
   # PATCH/PUT /project_updates/1 or /project_updates/1.json
   def update
     respond_to do |format|
-      if @project_update.update(project_update_params)
+      @project_update.assign_attributes(project_update_params)
+      @project_update.assign_attributes({ 'status' => 'finished' }) if params[:finished] == 'true'
+
+      if @project_update.save
         format.html { redirect_to project_path(@project_update.project), notice: 'Updated.' }
         format.json { render :index, status: :ok, location: @project_update }
       else
@@ -33,10 +36,10 @@ class ProjectUpdatesController < ApplicationController
   private
 
   def project_update_params
-    params.require(:project_update).permit(:stop_status, :reason, :note, :is_start, :manually_edited_time)
+    params.require(:project_update).permit(:status, :reason, :note, :manually_edited_time)
   end
 
   def set_project_udpate
-    @project_update = ProjectUpdate.includes(:project).find(params[:id])
+    @project_update ||= ProjectUpdate.includes(:project).find(params[:id])
   end
 end

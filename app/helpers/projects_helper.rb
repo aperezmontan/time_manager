@@ -2,12 +2,6 @@
 
 # Helper for Project views
 module ProjectsHelper
-  STATUSES = {
-    'pause' => 'Paused',
-    'hold' => 'On hold',
-    'finish' => 'Finished'
-  }.freeze
-
   def current_status_in_words(project_update:)
     get_status(update: project_update)
   end
@@ -20,7 +14,7 @@ module ProjectsHelper
   end
 
   def get_status(update:)
-    STATUSES.fetch(update.stop_status, 'Started')
+    update.status.humanize
   end
 
   def last_update(project:)
@@ -28,10 +22,10 @@ module ProjectsHelper
   end
 
   def last_update_current_status(project:)
-    last_update(project:)&.stop_status
+    last_update(project:)&.status
   end
 
   def last_update_is_started?(project:)
-    last_update(project:)&.is_start || false
+    last_update(project:)&.started? || false
   end
 end
