@@ -39,6 +39,8 @@ class ProjectsController < ApplicationController
   def update
     respond_to do |format|
       if @project.update(project_params)
+        # TODO: FIXME - THIS IS TERRIBLE
+        @project.project_updates.last.update(status: 'finished') if params[:finished] == 'true'
         format.html { redirect_to project_url(@project), notice: 'Project was successfully updated.' }
         format.json { render :index, status: :ok, location: @project }
       else
