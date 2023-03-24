@@ -215,6 +215,8 @@ GEM
     tailwindcss-rails (2.0.21-x86_64-linux)
       railties (>= 6.0.0)
     thor (1.2.1)
+    time_difference (0.5.0)
+      activesupport
     timeout (0.3.1)
     turbo-rails (1.3.2)
       actionpack (>= 6.0.0)
@@ -256,6 +258,7 @@ DEPENDENCIES
   sprockets-rails
   stimulus-rails
   tailwindcss-rails (~> 2.0)
+  time_difference
   turbo-rails
   tzinfo-data
   web-console

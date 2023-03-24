@@ -26,7 +26,7 @@
               </div>
               <div>
                 <div>
-                  Time: <%= project_update.manually_edited_time.strftime("%_m/%-d %l:%M%P") %>
+                  Time: <%= project_update.manually_edited_time.in_time_zone('Eastern Time (US & Canada)').strftime("%_m/%-d %l:%M%P") %>
                 </div>
                 <% if project_update.reason.present? %>
                   <div>
@@ -48,6 +48,21 @@
           <% nav_list.push({id: project_update.id, title: card_title, date: project_update.manually_edited_time.strftime("%_m/%-d at %l:%M%P")}) %>
         <% end %>
       </ul>
+      <% if @hours_worked %>
+        <div class="text-base sm:text-lg text-center py-2 TIME-CONTAINER">
+          <div class="TOTAL-TIME-WORKED">
+            <strong><%= @hours_worked.round(1) %></strong> total hours worked
+            <% if last_update_is_started?(project: @project) %>
+              and counting ⏱
+            <% end %>
+          </div>
+          <% if @days_since_start %>
+            <div class="TOTAL-TIME-SINCE-PROJECT-BEGAN">
+              <strong><%= @days_since_start.downcase %></strong> since this project was started
+            </div>
+          <% end %>
+        </div>
+      <% end %>
       <nav class="flex flex-col items-center">
         <% nav_list.each do |nav_list_item| %>
           <li class="py-2 list-none">
