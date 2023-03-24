@@ -3,6 +3,8 @@
 # The Controller for manipulating Projects
 class ProjectsController < ApplicationController
   before_action :set_project, only: %i[show edit update destroy]
+  before_action :set_project, only: %i[show edit update destroy]
+  before_action :set_times, only: %i[show]
   before_action :authenticate_user!
   before_action :authorize_user, except: %i[show edit index]
 
@@ -88,5 +90,46 @@ class ProjectsController < ApplicationController
     @project = policy_scope(Project).includes(:project_updates).find(params[:id])
   rescue ActiveRecord::RecordNotFound
     redirect_to projects_url, alert: 'Project not found'
+  end
+
+  def set_times
+    return unless @project.project_updates.any?
+
+    time_difference = TimeDifference.between(
+      @project.project_updates.order(manually_edited_time: :asc).first.manually_edited_time, Time.current
+    ).in_general
+    @days_since_start = in_words(time_difference:)
+    time_intervals = []
+
+    @project.project_updates.order(manually_edited_time: :asc).each_slice(2) do |start, stop|
+      time_intervals << if stop.nil?
+                          (Time.current - start.manually_edited_time)
+                        else
+                          (stop.manually_edited_time - start.manually_edited_time)
+                        end
+    end
+
+    @hours_worked = time_intervals.reduce(0) do |total_time, time_interval|
+      total_time + time_interval
+    end / 3600
+  end
+
+  def in_words(time_difference:)
+    diff_parts = []
+
+    time_difference.slice(:years, :months, :weeks, :days, :hours).map do |part, quantity|
+      next if quantity <= 0
+
+      part = part.to_s.humanize
+
+      part = part.singularize if quantity <= 1
+
+      diff_parts << "#{quantity} #{part}"
+    end
+
+    last_part = diff_parts.pop
+    return last_part if diff_parts.empty?
+
+    [diff_parts.join(', '), last_part].join(' and ')
   end
 end
