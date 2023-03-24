@@ -18,6 +18,12 @@
   </div>
 <% end %>
 <div class="input-field">
+  <%= form.label :manually_edited_time, 'Time', class: "block mt-2 text-sm font-medium text-gray-900" %>
+  <div class="custom-select">
+    <%= form.datetime_select :manually_edited_time, {selected: project_update.manually_edited_time || Time.current}, {class: "input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"} %>
+  </div>
+</div>
+<div class="input-field">
   <%= form.label :note, class: "block mt-2 text-sm font-medium text-gray-900" %>
   <div class="custom-select">
     <%= form.text_area :note, placeholder: "Write something here...", class: "input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" %>
