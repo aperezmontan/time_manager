@@ -95,10 +95,8 @@ class ProjectsController < ApplicationController
   def set_times
     return unless @project.project_updates.any?
 
-    time_difference = TimeDifference.between(
-      @project.project_updates.order(manually_edited_time: :asc).first.manually_edited_time, Time.current
-    ).in_general
-    @days_since_start = in_words(time_difference:)
+    @days_since_start = @project.project_updates.map(&:manually_edited_time).map(&:to_date).uniq
+
     time_intervals = []
 
     @project.project_updates.order(manually_edited_time: :asc).each_slice(2) do |start, stop|
@@ -112,24 +110,5 @@ class ProjectsController < ApplicationController
     @hours_worked = time_intervals.reduce(0) do |total_time, time_interval|
       total_time + time_interval
     end / 3600
-  end
-
-  def in_words(time_difference:)
-    diff_parts = []
-
-    time_difference.slice(:years, :months, :weeks, :days, :hours).map do |part, quantity|
-      next if quantity <= 0
-
-      part = part.to_s.humanize
-
-      part = part.singularize if quantity <= 1
-
-      diff_parts << "#{quantity} #{part}"
-    end
-
-    last_part = diff_parts.pop
-    return last_part if diff_parts.empty?
-
-    [diff_parts.join(', '), last_part].join(' and ')
   end
 end

@@ -6,70 +6,88 @@
 </div>
 <% if @project.project_updates.any? %>
   <ul class="flex items-center overflow-x-auto gap-6 snap-mandatory snap-x py-6 before:shrink-0 before:w-[30vw] after:shrink-0 after:w-[30vw] ROJECT-UPDATE-CARDS">
+    <% last_update = nil %>
     <% @project.project_updates.order(created_at: :desc).each do |project_update| %>
       <% card_title = project_update.status&.humanize %>
+      <% text_color =  %>
       <div class="flex items-center first-of-type:hidden ELLIPSIS">
-        <div class="flex text-slate-800 rounded-sm">....</div>
-      </div>
-      <% if card_title != "Started" %>
-        <% if card_title == "Finished" %>
-          <li id=<%= project_update.id %> class="bg-blue-500 shrink-0 snap-center flex justify-between max-w-sm rounded-lg overflow-hidden shadow-lg p-4 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 PROJECT-UPDATE-CARD">
-          <% else %>
-            <li id=<%= project_update.id %> class="bg-red-500 shrink-0 snap-center flex justify-between max-w-sm rounded-lg overflow-hidden shadow-lg p-4 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 PROJECT-UPDATE-CARD">
-            <% end %>
-          <% else %>
-            <li id=<%= project_update.id %> class="bg-green-500 shrink-0 snap-center flex justify-between max-w-sm rounded-lg overflow-hidden shadow-lg p-4 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 PROJECT-UPDATE-CARD">
-            <% end %>
-            <%= link_to(edit_project_update_path(project_update), {class: "text-white", data: { turbo_frame: "modal" }}) do %>
-              <div class="text-lg font-semibold">
-                <%= card_title %>
+        <div class="flex text-slate-800 rounded-sm">
+          <% if last_update.present? %>
+            <% text_color = "text-green-500" if last_update.started? %>
+            <div class="px-2">
+              <% if last_update.stopped? %>
+                <strong class="text-green-500">
+                <% else %>
+                  <strong class="text-red-500">
+                  <% end %>
+                  <%= TimeDifference.between(
+              project_update.manually_edited_time, last_update.manually_edited_time
+    ).in_hours.round(0) %>
+                </strong>
               </div>
-              <div>
-                <div>
-                  Time: <%= project_update.manually_edited_time.in_time_zone('Eastern Time (US & Canada)').strftime("%_m/%-d %l:%M%P") %>
-                </div>
-                <% if project_update.reason.present? %>
-                  <div>
-                    Reason: <%= project_update.reason&.humanize %>
-                  </div>
-                <% end %>
-                <% if project_update.note.present? %>
-                  <div>
-                    Note: <%= project_update.note %>
-                  </div>
-                <% end %>
-              </div>
-            <% end %>
-            <div class="flex flex-col justify-center items-center">
-              <%# NOTE ! DELETE BUTTON FOR PROJECT UPDATES HERE. MUST DECIDE IF WE WANT THIS FUNCTIONALITY %>
-              <%= link_to "🚮", project_update_path(project_update), class: "btn px-1 text-xl ml-4", data: { turbo_method: :delete, turbo_confirm: 'Are you sure you want to delete this update ?' } %>
-            </div>
-          </li>
-          <% nav_list.push({id: project_update.id, title: card_title, date: project_update.manually_edited_time.strftime("%_m/%-d at %l:%M%P")}) %>
-        <% end %>
-      </ul>
-      <% if @hours_worked %>
-        <div class="text-base sm:text-lg text-center py-2 TIME-CONTAINER">
-          <div class="TOTAL-TIME-WORKED">
-            <strong><%= @hours_worked.round(1) %></strong> total hours worked
-            <% if last_update_is_started?(project: @project) %>
-              and counting ⏱
             <% end %>
           </div>
-          <% if @days_since_start %>
-            <div class="TOTAL-TIME-SINCE-PROJECT-BEGAN">
-              <strong><%= @days_since_start.downcase %></strong> since this project was started
-            </div>
-          <% end %>
         </div>
-      <% end %>
-      <nav class="flex flex-col items-center">
-        <% nav_list.each do |nav_list_item| %>
-          <li class="py-2 list-none">
-            <%= link_to "#{nav_list_item.fetch(:title)} on #{nav_list_item.fetch(:date)}", "##{nav_list_item.fetch(:id)}", class: "btn bg-gray-500 text-white" %>
-          </li>
+        <% last_update = project_update %>
+        <% if card_title != "Started" %>
+          <% if card_title == "Finished" %>
+            <li id=<%= project_update.id %> class="bg-blue-500 shrink-0 snap-center flex justify-between max-w-sm rounded-lg overflow-hidden shadow-lg p-4 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 PROJECT-UPDATE-CARD">
+            <% else %>
+              <li id=<%= project_update.id %> class="bg-red-500 shrink-0 snap-center flex justify-between max-w-sm rounded-lg overflow-hidden shadow-lg p-4 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 PROJECT-UPDATE-CARD">
+              <% end %>
+            <% else %>
+              <li id=<%= project_update.id %> class="bg-green-500 shrink-0 snap-center flex justify-between max-w-sm rounded-lg overflow-hidden shadow-lg p-4 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 PROJECT-UPDATE-CARD">
+              <% end %>
+              <%= link_to(edit_project_update_path(project_update), {class: "text-white", data: { turbo_frame: "modal" }}) do %>
+                <div class="text-lg font-semibold">
+                  <%= card_title %>
+                </div>
+                <div>
+                  <div>
+                    Time: <%= project_update.manually_edited_time.in_time_zone('Eastern Time (US & Canada)').strftime("%_m/%-d %l:%M%P") %>
+                  </div>
+                  <% if project_update.reason.present? %>
+                    <div>
+                      Reason: <%= project_update.reason&.humanize %>
+                    </div>
+                  <% end %>
+                  <% if project_update.note.present? %>
+                    <div>
+                      Note: <%= project_update.note %>
+                    </div>
+                  <% end %>
+                </div>
+              <% end %>
+              <div class="flex flex-col justify-center items-center">
+                <%# NOTE ! DELETE BUTTON FOR PROJECT UPDATES HERE. MUST DECIDE IF WE WANT THIS FUNCTIONALITY %>
+                <%= link_to "🚮", project_update_path(project_update), class: "btn px-1 text-xl ml-4", data: { turbo_method: :delete, turbo_confirm: 'Are you sure you want to delete this update ?' } %>
+              </div>
+            </li>
+            <% nav_list.push({id: project_update.id, title: card_title, date: project_update.manually_edited_time.strftime("%_m/%-d at %l:%M%P")}) %>
+          <% end %>
+        </ul>
+        <% if @hours_worked %>
+          <div class="text-base sm:text-lg text-center py-2 TIME-CONTAINER">
+            <div class="TOTAL-TIME-WORKED">
+              <strong><%= @hours_worked.round(0) %></strong> total hours worked
+              <% if last_update_is_started?(project: @project) %>
+                and counting ⏱
+              <% end %>
+            </div>
+            <% if @days_since_start %>
+              <div class="TOTAL-TIME-SINCE-PROJECT-BEGAN">
+                <strong><%= @days_since_start.count %></strong> day<%= "s" if @days_since_start.count > 1 %> total worked on project
+              </div>
+            <% end %>
+          </div>
         <% end %>
-      </nav>
-    <% else %>
-      No updates
-    <% end %>
+        <nav class="flex flex-col items-center">
+          <% nav_list.each do |nav_list_item| %>
+            <li class="py-2 list-none">
+              <%= link_to "#{nav_list_item.fetch(:title)} on #{nav_list_item.fetch(:date)}", "##{nav_list_item.fetch(:id)}", class: "btn bg-gray-500 text-white" %>
+            </li>
+          <% end %>
+        </nav>
+      <% else %>
+        No updates
+      <% end %>
