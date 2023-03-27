@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  resources :feedbacks
   # Defines the root path route ("/")
   root 'projects#index'
   devise_for :users

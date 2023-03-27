@@ -19,14 +19,10 @@
       <% if current_user %>
         <ul class="list-none sm:flex hidden justify-end items-center flex-1">
           <%# TODO!: ALL OF THIS IS GROSS. FIX ! %>
-          <% links = ['home', 'features', 'clients', 'about', 'logout'] %>
-          <% links.each do |link| %>
+          <% links = ['how_to', 'feedback', 'about', 'logout'] %>
+          <% ApplicationHelper::HEADER_LINKS.each do |_k, link| %>
             <li class="font-normal text-[16px] mr-2 md:mr-4 last-of-type:mr-0">
-              <% if link == 'logout' %>
-                <%= link_to link.humanize, destroy_user_session_path, data: { turbo_method: :delete }, class: "btn bg-red-600 text-white" %>
-              <% else %>
-                <%= link_to link.humanize, '/' %>
-              <% end %>
+              <%= link_to link.name, link.path, link.options %>
             </li>
           <% end %>
         </ul>
