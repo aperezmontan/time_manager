@@ -4,16 +4,15 @@
 #
 # Table name: project_updates
 #
-#  id                   :bigint           not null, primary key
-#  note                 :text
-#  project_id           :bigint           not null
-#  created_at           :datetime         not null
-#  updated_at           :datetime         not null
-#  reason               :enum
-#  manually_edited_time :datetime
-#  status               :enum             default("started")
+#  id                       :bigint           not null, primary key
+#  note                     :text
+#  project_id               :bigint           not null
+#  created_at               :datetime         not null
+#  updated_at               :datetime         not null
+#  reason                   :enum
+#  manually_edited_datetime :datetime
+#  status                   :enum             default("started")
 #
-# The records that save users stops and starts with detailed information
 class ProjectUpdate < ApplicationRecord
   belongs_to :project
 
@@ -27,9 +26,13 @@ class ProjectUpdate < ApplicationRecord
   # VALIDATIONS
   validates :status, presence: true
 
+  # ATTRS
+  # Use this this update the manually_edited_datetime
+  attr_accessor :manually_edited_date, :manually_edited_datetime
+
   # ATTEMPT TO BE MORE EFFICIENT
   # def self.latest_updates_for_projects
-  #   latest_updates_ids = select(:id).order(manually_edited_time: :desc).group(:project_id).limit(1)
+  #   latest_updates_ids = select(:id).order(manually_edited_datetime: :desc).group(:project_id).limit(1)
   #   where(id: latest_updates_ids)
   # end
 end

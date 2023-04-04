@@ -9,7 +9,6 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
-# The main class where users can save their stops and start updates
 class Project < ApplicationRecord
   # ASSOCIATIONS
   has_many :project_updates, dependent: :destroy, autosave: true

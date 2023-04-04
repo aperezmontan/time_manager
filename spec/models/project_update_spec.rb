@@ -4,14 +4,14 @@
 #
 # Table name: project_updates
 #
-#  id                   :bigint           not null, primary key
-#  note                 :text
-#  project_id           :bigint           not null
-#  created_at           :datetime         not null
-#  updated_at           :datetime         not null
-#  reason               :enum
-#  manually_edited_time :datetime
-#  status               :enum             default("started")
+#  id                       :bigint           not null, primary key
+#  note                     :text
+#  project_id               :bigint           not null
+#  created_at               :datetime         not null
+#  updated_at               :datetime         not null
+#  reason                   :enum
+#  manually_edited_datetime :datetime
+#  status                   :enum             default("started")
 #
 require 'rails_helper'
 

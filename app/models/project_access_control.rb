@@ -11,7 +11,6 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
-# The records that save users access to the projects
 class ProjectAccessControl < ApplicationRecord
   belongs_to :project
   belongs_to :user

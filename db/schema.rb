@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_27_191701) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_04_211652) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -131,7 +131,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_27_191701) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.enum "reason", enum_type: "project_update_reason"
-    t.datetime "manually_edited_time", default: -> { "CURRENT_TIMESTAMP" }
+    t.datetime "manually_edited_datetime", default: -> { "CURRENT_TIMESTAMP" }
     t.enum "status", default: "started", enum_type: "project_update_status"
     t.index ["project_id"], name: "index_project_updates_on_project_id"
     t.index ["reason"], name: "index_project_updates_on_reason"
