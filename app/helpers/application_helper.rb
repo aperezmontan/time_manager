@@ -11,5 +11,5 @@ module ApplicationHelper
     # LOGOUT SHOULD ALWAYS BE LAST
     logout: Link.new(name: 'Logout', path: '/users/sign_out',
                      options: { data: { turbo_method: :delete }, class: 'btn bg-red-600 text-white' })
-  }
+  }.freeze
 end

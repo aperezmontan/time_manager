@@ -7,7 +7,7 @@
 <% if @project.project_updates.any? %>
   <ul class="flex items-center overflow-x-auto gap-6 snap-mandatory snap-x py-6 before:shrink-0 before:w-[30vw] after:shrink-0 after:w-[30vw] ROJECT-UPDATE-CARDS">
     <% last_update = nil %>
-    <% @project.project_updates.order(created_at: :desc).each do |project_update| %>
+    <% @project.project_updates.order(manually_edited_datetime: :desc).each do |project_update| %>
       <% card_title = project_update.status&.humanize %>
       <% text_color =  %>
       <div class="flex items-center first-of-type:hidden ELLIPSIS">
@@ -21,7 +21,7 @@
                   <strong class="text-red-500">
                   <% end %>
                   <%= TimeDifference.between(
-              project_update.manually_edited_time, last_update.manually_edited_time
+              project_update.manually_edited_datetime, last_update.manually_edited_datetime
     ).in_hours.round(0) %>
                 </strong>
               </div>
@@ -44,7 +44,7 @@
                 </div>
                 <div>
                   <div>
-                    Time: <%= project_update.manually_edited_time.in_time_zone('Eastern Time (US & Canada)').strftime("%_m/%-d %l:%M%P") %>
+                    Time: <%= project_update.manually_edited_datetime.strftime("%_m/%-d %l:%M%P") %>
                   </div>
                   <% if project_update.reason.present? %>
                     <div>
@@ -63,7 +63,7 @@
                 <%= link_to "🚮", project_update_path(project_update), class: "btn px-1 text-xl ml-4", data: { turbo_method: :delete, turbo_confirm: 'Are you sure you want to delete this update ?' } %>
               </div>
             </li>
-            <% nav_list.push({id: project_update.id, title: card_title, date: project_update.manually_edited_time.strftime("%_m/%-d at %l:%M%P")}) %>
+            <% nav_list.push({id: project_update.id, title: card_title, date: project_update.manually_edited_datetime.strftime("%_m/%-d at %l:%M%P")}) %>
           <% end %>
         </ul>
         <% if @hours_worked %>

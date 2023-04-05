@@ -18,7 +18,7 @@ module ProjectsHelper
   end
 
   def last_update(project:)
-    project.project_updates.order(manually_edited_time: :desc).first
+    project.project_updates.order(manually_edited_datetime: :desc).first
   end
 
   def last_update_current_status(project:)

@@ -36,7 +36,7 @@ class ProjectUpdatesController < ApplicationController
   private
 
   def project_update_params
-    params.require(:project_update).permit(:status, :reason, :note, :manually_edited_time)
+    params.require(:project_update).permit(:status, :reason, :note, :manually_edited_date, :manually_edited_time)
   end
 
   def set_project_udpate
