@@ -86,13 +86,6 @@ class ProjectsController < ApplicationController
     end
   end
 
-  # def datetime_params
-  #   # "manually_edited_datetime(1i)"=>"2023", "manually_edited_datetime(2i)"=>"4", "manually_edited_datetime(3i)"=>"3", "manually_edited_datetime(4i)"=>"21", "manually_edited_datetime(5i)"=>"34"
-  #   manually_edited_datetime_date_params = project_params["manually_edited_datetime(date)"]
-  #   manually_edited_datetime_time_params = project_params["manually_edited_datetime(time)"]
-  #   manually_edited_datetime_params
-  # end
-
   def set_project
     @project = policy_scope(Project).includes(:project_updates).find(params[:id])
   rescue ActiveRecord::RecordNotFound
@@ -108,7 +101,7 @@ class ProjectsController < ApplicationController
 
     @project.project_updates.order(manually_edited_datetime: :asc).each_slice(2) do |start, stop|
       time_intervals << if stop.nil?
-                          (Time.current - start.manually_edited_datetime)
+                          (Time.current.in_time_zone("America/New_York") - start.manually_edited_datetime)
                         else
                           (stop.manually_edited_datetime - start.manually_edited_datetime)
                         end
