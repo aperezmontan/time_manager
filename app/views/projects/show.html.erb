@@ -7,7 +7,7 @@
 <% if @project.project_updates.any? %>
   <ul class="flex items-center overflow-x-auto gap-6 snap-mandatory snap-x py-6 before:shrink-0 before:w-[30vw] after:shrink-0 after:w-[30vw] ROJECT-UPDATE-CARDS">
     <% last_update = nil %>
-    <% @project.project_updates.order(created_at: :desc).each do |project_update| %>
+    <% @project.project_updates.order(manually_edited_datetime: :desc).each do |project_update| %>
       <% card_title = project_update.status&.humanize %>
       <% text_color =  %>
       <div class="flex items-center first-of-type:hidden ELLIPSIS">

@@ -17,8 +17,8 @@
     </div>
   </div>
 <% end %>
-<div class="input-group flex flex-row">
-  <div class="input-field">
+<div class="input-group flex flex-row space-x-4">
+  <div class="input-field grow">
     <div data-controller="date">
       <%= form.label :manually_edited_date, "Date", class: "block mt-2 text-sm font-medium text-gray-900" %>
       <%= form.text_field :manually_edited_date,
@@ -28,7 +28,7 @@
     %>
     </div>
   </div>
-  <div class="input-field">
+  <div class="input-field grow">
     <div data-controller="date">
       <%= form.label :manually_edited_time, "Time", class: "block mt-2 text-sm font-medium text-gray-900" %>
       <%= form.text_field :manually_edited_time,
