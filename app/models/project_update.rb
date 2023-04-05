@@ -28,7 +28,32 @@ class ProjectUpdate < ApplicationRecord
 
   # ATTRS
   # Use this this update the manually_edited_datetime
-  attr_accessor :manually_edited_date, :manually_edited_datetime
+  attr_accessor :manually_edited_date, :manually_edited_time
+
+  before_validation do
+    date = if manually_edited_date.nil?
+             manually_edited_datetime.to_date
+           else
+             Date.strptime(manually_edited_date,
+                           '%m/%d/%Y')
+           end
+    time = if manually_edited_time.nil?
+             manually_edited_datetime.to_time
+           else
+             Time.strptime(manually_edited_time,
+                           '%l:%M %p')
+           end
+    self.manually_edited_datetime = DateTime.new(date.year, date.month, date.day, time.hour, time.min, time.sec)
+
+  rescue ArgumentError => e
+    if e.is_a?(Date::Error)
+      errors.add(:base, 'Date is not valid')
+    elsif e.message.include?('invalid date')
+      errors.add(:base, 'Time is not valid')
+    else
+      raise e
+    end
+  end
 
   # ATTEMPT TO BE MORE EFFICIENT
   # def self.latest_updates_for_projects

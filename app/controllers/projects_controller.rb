@@ -71,8 +71,8 @@ class ProjectsController < ApplicationController
 
   def project_params
     params.require(:project).permit(:name,
-                                    project_updates_attributes: %i[status reason note is_start
-                                                                   manually_edited_datetime])
+                                    project_updates_attributes: %i[status reason note is_start manually_edited_date
+                                                                   manually_edited_time])
   end
 
   # Wraps the save and the access control in a transaction so that

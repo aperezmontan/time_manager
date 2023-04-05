@@ -44,7 +44,7 @@
                 </div>
                 <div>
                   <div>
-                    Time: <%= project_update.manually_edited_datetime.in_time_zone('Eastern Time (US & Canada)').strftime("%_m/%-d %l:%M%P") %>
+                    Time: <%= project_update.manually_edited_datetime.strftime("%_m/%-d %l:%M%P") %>
                   </div>
                   <% if project_update.reason.present? %>
                     <div>

@@ -17,10 +17,26 @@
     </div>
   </div>
 <% end %>
-<div class="input-field">
-  <%= form.label :manually_edited_time, 'Time', class: "block mt-2 text-sm font-medium text-gray-900" %>
-  <div class="custom-select">
-    <%= form.datetime_select :manually_edited_time, {selected: project_update.manually_edited_time || Time.current}, {class: "input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"} %>
+<div class="input-group flex flex-row">
+  <div class="input-field">
+    <div data-controller="date">
+      <%= form.label :manually_edited_date, "Date", class: "block mt-2 text-sm font-medium text-gray-900" %>
+      <%= form.text_field :manually_edited_date,
+      data: { "date-target" => 'manuallyEditedDate' },
+      value: project_update.manually_edited_datetime&.strftime("%m/%d/%Y") || Date.current.strftime("%m/%d/%Y"),
+      class: "input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+    %>
+    </div>
+  </div>
+  <div class="input-field">
+    <div data-controller="date">
+      <%= form.label :manually_edited_time, "Time", class: "block mt-2 text-sm font-medium text-gray-900" %>
+      <%= form.text_field :manually_edited_time,
+      data: { "date-target" => 'manuallyEditedTime' },
+      value: project_update.manually_edited_datetime&.strftime("%l:%M %p") || Time.current.in_time_zone("America/New_York").strftime("%l:%M %p"),
+      class: "input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+    %>
+    </div>
   </div>
 </div>
 <div class="input-field">
