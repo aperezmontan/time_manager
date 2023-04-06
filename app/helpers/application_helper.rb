@@ -5,7 +5,7 @@ module ApplicationHelper
   Link = Struct.new(:name, :path, :options, keyword_init: true)
 
   HEADER_LINKS = {
-    how_to: Link.new(name: 'How to...', path: 'https://www.youtube.com/@ikn8228/playlists'),
+    how_to: Link.new(name: 'How to...', path: 'https://www.youtube.com/@ikn8228/playlists', options: { target: :_blank }),
     feedback: Link.new(name: 'Feedback', path: '/feedbacks/new'),
     about: Link.new(name: 'About', path: 'https://aperezmontan.github.io/blog'),
     # LOGOUT SHOULD ALWAYS BE LAST

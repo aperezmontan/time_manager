@@ -39,14 +39,9 @@
           <% style_class = "flex-col" %>
         <% end %>
         <div id="mobile-menu-items" class="hidden items-end w-full flex-col">
-          <%# TODO!: EXACTLY THE SAME AS ABOVE. ALL OF THIS IS GROSS. FIX ! %>
-          <% links.each do |link| %>
+          <% ApplicationHelper::HEADER_LINKS.each do |_k, link| %>
             <div class="font-normal text-[20px] py-2 last-of-type:ml-2">
-              <% if link == 'logout' %>
-                <%= link_to link.humanize, destroy_user_session_path, data: { turbo_method: :delete }, class: "btn bg-red-600 text-white" %>
-              <% else %>
-                <%= link_to link.humanize, '/' %>
-              <% end %>
+              <%= link_to link.name, link.path, link.options %>
             </div>
           <% end %>
         <% end %>
